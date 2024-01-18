@@ -18,11 +18,13 @@ pd.set_option('display.max_colwidth', None)
 
 df = pd.read_csv('cpv/all.csv', sep=',', quotechar='"', quoting=csv.QUOTE_MINIMAL, usecols=[1, 2, 3])
 
+df.dropna(inplace=True)
+
 def int_to_hierarchy(int_cpv):
     v = str(int(int_cpv))
     return [subcategory for subcategory in [v[:2], *v[2:]] if subcategory != '0']
 
 df.cpv = df.cpv.apply(int_to_hierarchy)
 
-df.desc = df.desc.str.replace(r'\d{8}(-\d)?', '')
+df.desc = df.desc.str.replace(r'\d{8}(-\d)?', '', regex=True)
 print(df)
