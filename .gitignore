@@ -3,3 +3,5 @@ __pycache__
 *.sh
 !data/nyt.sh
 *.slurm
+log/
+cpv/
