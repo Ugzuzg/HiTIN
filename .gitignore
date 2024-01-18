@@ -5,3 +5,4 @@ __pycache__
 *.slurm
 log/
 cpv/
+vocab/

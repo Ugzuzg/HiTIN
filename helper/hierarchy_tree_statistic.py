@@ -137,7 +137,10 @@ class DatasetStatistic(object):
             # sample label : list of labels
             for label in sample_label:
                 path_flag = False
-                assert label in self.label_vocab
+                #assert label in self.label_vocab, label
+                if not label in self.label_vocab:
+                    print(label)
+                    continue
                 level_num_dict[self.label_trees[label]._depth] += 1
                 if label in self.init_prior_prob_dict.keys():
                     # TODO: the children of Root node, need to be changed according to different corpus
