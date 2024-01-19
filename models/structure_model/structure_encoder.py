@@ -53,6 +53,8 @@ class StructureEncoder(nn.Module):
                 continue
             for c in self.hierarchy_prob[p].keys():
                 # self.hierarchy_id_prob[self.label_map[p]][self.label_map[c]] = self.hierarchy_prob[p][c]
+                if self.hierarchy_prob[p][c] == 0:
+                    continue
                 self.node_prob_from_child[int(self.label_map[p])][int(self.label_map[c])] = 1.0
                 self.node_prob_from_parent[int(self.label_map[c])][int(self.label_map[p])] = self.hierarchy_prob[p][c]
         #  node_prob_from_parent: row means parent, col refers to children

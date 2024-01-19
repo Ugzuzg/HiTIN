@@ -65,7 +65,7 @@ class Logger(object):
                             datefmt='%Y/%m/%d %H:%M:%S')
 
         self.stdout_handler = logging.StreamHandler(sys.stdout)
-        self.stdout_handler.setLevel(logging.ERROR)
+        self.stdout_handler.setLevel(logging.INFO)
         self.stdout_handler.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s : %(message)s'))
 
         self.logger = logging.getLogger('')
