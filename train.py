@@ -49,7 +49,7 @@ def train(config, args):
     corpus_vocab = Vocab(config,
                          min_freq=5,
                          max_size=70000)
-    if config.text_encoder.type == "bert":
+    if config.text_encoder.type == "bert" or config.text_encoder.type == "roberta":
         tokenizer = AutoTokenizer.from_pretrained(config.text_encoder.bert_model_dir)
     else:
         tokenizer = None
@@ -81,7 +81,7 @@ def train(config, args):
                                    # recursive_penalty=config.train.loss.recursive_regularization.penalty,
                                    recursive_penalty=args.hierar_penalty,  # using args
                                    recursive_constraint=config.train.loss.recursive_regularization.flag)
-    if config.text_encoder.type == "bert":
+    if config.text_encoder.type == "bert" or config.text_encoder.type == "roberta":
         t_total = int(len(train_loader) * (config.train.end_epoch-config.train.start_epoch))
 
         param = list(hiagm.named_parameters())

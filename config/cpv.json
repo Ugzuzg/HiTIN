@@ -30,7 +30,7 @@
     }
   },
   "text_encoder": {
-    "type": "bert",
+    "type": "roberta",
     "bert_model_dir": "EuropeanParliament/EUBERT",
     "max_length": 300,
     "RNN": {
@@ -108,4 +108,3 @@
     "filename": "tin-cpv-bert.log"
   }
 }
-

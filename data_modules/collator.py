@@ -55,7 +55,7 @@ class Collator(object):
             batch_label.append(sample['label'])
             batch_doc_len.append(sample['token_len'])
 
-            if self.config.text_encoder.type == "bert":
+            if self.config.text_encoder.type == "bert" or self.config.text_encoder.type == "roberta":
                 batch_input_ids.append(sample['input_ids'])
                 batch_input_mask.append(sample['input_mask'])
                 batch_segment_ids.append(sample['segment_ids'])

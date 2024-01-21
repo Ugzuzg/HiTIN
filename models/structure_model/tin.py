@@ -58,7 +58,7 @@ class TreeIsomorphismNetwork(nn.Module):
                 self.tree['edges'][n.child_h].extend([(n_idx, c - c_base) for c in n.children])
         build_tree_time = time.time() - begin_time
         print("Coding tree generation costs time of {}".format(build_tree_time))
-        sys.exit()
+        #sys.exit()
         self.model = nn.ModuleList()
         self.model.append(
             TINConv(tree=self.tree,

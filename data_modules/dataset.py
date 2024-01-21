@@ -118,7 +118,7 @@ class ClassificationDataset(Dataset):
             if k == 'token':
                 sample[k] = [self.vocab.v2i[k].get(v.lower(), self.vocab.oov_index) for v in raw_sample[k]]
 
-                if self.config.text_encoder.type == "bert":
+                if self.config.text_encoder.type == "bert" or self.config.text_encoder.type == "roberta":
                     sentences = " ".join(raw_sample[k])
                     features = self.create_features(sentences, self.max_input_length)
                     for (features_k, features_v) in features.items():

@@ -71,7 +71,7 @@ class Trainer(object):
 
                 self.optimizer.zero_grad()
                 loss.backward()
-                if self.config.text_encoder.type == "bert":
+                if self.config.text_encoder.type == "bert" or self.config.text_encoder.type == "roberta":
                     torch.nn.utils.clip_grad_norm_(self.model.parameters(), max_norm=1, norm_type=2)
                 self.optimizer.step()
 

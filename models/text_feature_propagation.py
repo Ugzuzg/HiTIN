@@ -45,7 +45,7 @@ class HiAGMTP(nn.Module):
         :param text_feature ->  torch.FloatTensor, (batch_size, K0, text_dim)
         :return: logits ->  torch.FloatTensor, (batch, N)
         """
-        if self.config.text_encoder.type != "bert":
+        if self.config.text_encoder.type != "bert" and self.config.text_encoder.type != 'roberta':
             text_feature = torch.cat(text_feature, 1)
             text_feature = text_feature.view(text_feature.shape[0], -1)
         # original hiagm

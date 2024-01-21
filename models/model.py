@@ -9,7 +9,7 @@ from models.multi_label_attention import HiAGMLA
 from models.text_feature_propagation import HiAGMTP
 from models.origin import Classifier
 
-from models.text_encoder import BertTextEncoder
+from models.text_encoder import BertTextEncoder, RobertaTextEncoder
 
 
 DATAFLOW_TYPE = {
@@ -53,6 +53,8 @@ class HiAGM(nn.Module):
         # self.text_encoder = TextEncoder(config)
         if self.config.text_encoder.type == "bert":
             self.text_encoder = BertTextEncoder.from_pretrained(self.config.text_encoder.bert_model_dir)
+        if self.config.text_encoder.type == "roberta":
+            self.text_encoder = RobertaTextEncoder.from_pretrained(self.config.text_encoder.bert_model_dir)
         else:
             self.text_encoder = TextEncoder(config)
 
@@ -103,7 +105,7 @@ class HiAGM(nn.Module):
 
         # get the length of sequences for dynamic rnn, (batch_size, 1)
         seq_len = batch['token_len']
-        if self.config.text_encoder.type == 'bert':
+        if self.config.text_encoder.type == 'bert' or self.config.text_encoder.type == 'roberta':
             token_output = self.text_encoder(batch)
         else:
             token_output = self.text_encoder(embedding, seq_len)
