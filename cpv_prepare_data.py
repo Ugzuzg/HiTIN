@@ -31,9 +31,7 @@ df['label'] = df.cpv.progress_apply(int_to_hierarchy)
 
 df.desc = df.desc.str.replace(r'\d{8}(-\d)?', '', regex=True)
 
-from transformers import AutoTokenizer
-tokenizer = AutoTokenizer.from_pretrained("EuropeanParliament/EUBERT")
-df['token'] = df.desc.progress_apply(lambda x: tokenizer.tokenize(x))
+df['token'] = df.desc.progress_apply(lambda x: [x])
 
 # Split data into train, val, test
 import numpy as np
