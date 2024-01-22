@@ -33,6 +33,7 @@ def get_cpv_level(cpv_code: str):
     """A level of a CPV code is the number of non zero digits in the code after the first two digits."""
     return len(cpv_code[2:]) - cpv_code[2:].count('0')
 
+# Read 'CODE' as object, otherwise pandas converts it to integers removing leading zeros
 cpv = pd.read_csv('cpv/cpv.csv', dtype={'CODE': object})
 cpv_tree = build_tree(cpv)
 
