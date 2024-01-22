@@ -8,9 +8,19 @@ import tqdm
 import os
 import json
 
+import mmap
+
+def get_num_lines(file_path):
+    fp = open(file_path, "r+")
+    buf = mmap.mmap(fp.fileno(), 0)
+    lines = 0
+    while buf.readline():
+        lines += 1
+    return lines
+
 
 class Vocab(object):
-    def __init__(self, config, min_freq=1, special_token=['<PADDING>', '<OOV>'], max_size=None):
+    def __init__(self, config, tokenizer=None, min_freq=1, special_token=['<PADDING>', '<OOV>'], max_size=None):
         """
         vocabulary class for text classification, initialized from pretrained embedding file
         and update based on minimum frequency and maximum size
@@ -31,6 +41,7 @@ class Vocab(object):
         self.v2i = {'token': dict(), 'label': dict()}
         # index to vocab
         self.i2v = {'token': dict(), 'label': dict()}
+        self.tokenizer = tokenizer
 
         self.min_freq = max(min_freq, 1)
         if not os.path.isdir(self.config.vocabulary.dir):
@@ -85,7 +96,7 @@ class Vocab(object):
         pretrained_file_dir = self.config.embedding.token.pretrained_file
         with open(pretrained_file_dir, 'r', encoding='utf8') as f_in:
             logger.info('Loading vocabulary from pretrained embedding...')
-            for line in tqdm.tqdm(f_in):
+            for line in tqdm.tqdm(f_in, total=get_num_lines(pretrained_file_dir)):
                 data = line.rstrip('\n').split(' ')
                 if len(data) == 2:
                     # first line in pretrained embedding
@@ -101,7 +112,7 @@ class Vocab(object):
             mode = 'ALL'
             with open(self.corpus_files[corpus], 'r') as f_in:
                 logger.info('Loading ' + corpus + ' subset...')
-                for line in tqdm.tqdm(f_in):
+                for line in tqdm.tqdm(f_in, total=get_num_lines(self.corpus_files[corpus])):
                     data = json.loads(line.rstrip())
                     self._count_vocab_from_sample(data, mode)
 
@@ -113,7 +124,12 @@ class Vocab(object):
         for k in self.freqs.keys():
             if mode == 'ALL':
                 for t in line_dict[k]:
-                    self.freqs[k][t] += 1
+                    if self.tokenizer is not None and k != 'label':
+                        tokens = self.tokenizer.tokenize(t)
+                        for t in tokens:
+                            self.freqs[k][t] += 1
+                    else:
+                        self.freqs[k][t] += 1
             else:
                 for t in line_dict['token']:
                     self.freqs['token'][t] += 1

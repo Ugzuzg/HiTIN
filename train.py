@@ -46,13 +46,15 @@ def train(config, args):
     :param config: helper.configure, Configure Object
     """
     # loading corpus and generate vocabulary
-    corpus_vocab = Vocab(config,
-                         min_freq=5,
-                         max_size=70000)
     if config.text_encoder.type == "bert" or config.text_encoder.type == "roberta":
         tokenizer = AutoTokenizer.from_pretrained(config.text_encoder.bert_model_dir)
     else:
         tokenizer = None
+
+    corpus_vocab = Vocab(config,
+                         tokenizer=tokenizer,
+                         min_freq=5,
+                         max_size=70000)
 
     # get data
     train_loader, dev_loader, test_loader = data_loaders(config, corpus_vocab, tokenizer=tokenizer)
