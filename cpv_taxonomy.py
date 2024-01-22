@@ -12,9 +12,6 @@ def walk_hierarchy(node, depth=0):
     if node['children'] is None or len(node['children']) == 0:
         return []
 
-    if len(node['children']) == 1 and node['cpv'] == node['children'][0]['cpv']:
-        return []
-
     out = []
     direct_children = [child['cpv'] for child in (node['children'] or []) if child['cpv'] != node['cpv']]
     out.append('\t'.join([node['cpv']] + direct_children) + '\n')
