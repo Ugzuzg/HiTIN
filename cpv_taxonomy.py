@@ -1,13 +1,5 @@
 import json
 
-def filter_cpv(cpv, depth):
-    slice_from = 0
-    slice_to = 2
-    if depth > 0:
-        slice_from = depth + 1
-        slice_to = slice_from + 1
-    return cpv[slice_from:slice_to]
-
 def walk_hierarchy(node, depth=0):
     if node['children'] is None or len(node['children']) == 0:
         return []
