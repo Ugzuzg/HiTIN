@@ -15,6 +15,8 @@ def build_tree(df):
         level = df[df['level'] == i]
         df.loc[level.index, 'parent'] = level.apply(find_parent, axis=1)
 
+    # df = df[df['level'] < 2]
+
     def _build_tree(parent=None):
         children = df[df['parent'].isna()] if parent is None else df[df['parent'] == parent]
         return [{ 'cpv': node['CODE'], 'name': node['name'], 'children': _build_tree(node['CODE']) } for _, node in children.iterrows()]
