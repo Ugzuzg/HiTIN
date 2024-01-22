@@ -1,6 +1,11 @@
 import json
 
-def walk_hierarchy(node, depth=0):
+def walk_hierarchy(node, depth=0) -> list[str]:
+    """A taxonomy file is a tab separated file with the following structure:
+    Category \t Subcategory1 \t Subcategory2
+    Subcategory1 \t Subcategory1.1 \t Subcategory1.2
+    Subcategory2 \t Subcategory2.1 \t Subcategory2.2
+    """
     if node['children'] is None or len(node['children']) == 0:
         return []
 
