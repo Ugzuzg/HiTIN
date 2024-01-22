@@ -50,8 +50,8 @@ class Trainer(object):
         total_loss = 0.0
         num_batch = data_loader.__len__()
 
-        # for batch in tqdm.tqdm(data_loader):
-        for batch in data_loader:
+        for batch in tqdm.tqdm(data_loader):
+        # for batch in data_loader:
             logits = self.model(batch)
             if self.config.train.loss.recursive_regularization.flag:
                 if self.config.structure_encoder.type == "TIN":
