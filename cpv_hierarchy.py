@@ -3,6 +3,14 @@ import json
 
 def build_tree(df):
     def find_parent(row):
+        """A parent of a CPV code is the closest matching CPV code with some values zeroed out.
+
+        03300000 is a parent of
+        03310000
+
+        03300000 can also be a parent of
+        03341000 if 03340000 does not exist
+        """
         for i in range(row['level'], 0, -1):
             suspected_parent = (row['CODE'][:(i+1)] + '0' * (7 - i))
             parent = df.loc[df['CODE'] == suspected_parent, 'CODE']
@@ -11,9 +19,7 @@ def build_tree(df):
         return None
 
     df['level'] = df['CODE'].apply(get_cpv_level)
-    for i in range(6, -1, -1):
-        level = df[df['level'] == i]
-        df.loc[level.index, 'parent'] = level.apply(find_parent, axis=1)
+    df['parent'] = df.apply(find_parent, axis=1)
 
     # df = df[df['level'] < 2]
 
@@ -23,9 +29,12 @@ def build_tree(df):
 
     return _build_tree()
 
-def get_cpv_level(cpv_code):
-    return 6 - cpv_code.split('-')[0][2:].count('0')
+def get_cpv_level(cpv_code: str):
+    """A level of a CPV code is the number of non zero digits in the code after the first two digits."""
+    return len(cpv_code[2:]) - cpv_code[2:].count('0')
 
 cpv = pd.read_csv('cpv/cpv.csv', dtype={'CODE': object})
+cpv_tree = build_tree(cpv)
+
 with open('cpv/cpv_hierarchy.json', 'w') as f:
-    json.dump(build_tree(cpv), f, indent=2)
+    json.dump(cpv_tree, f, indent=2)
