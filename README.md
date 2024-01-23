@@ -19,44 +19,51 @@ Note: to set up this environment use poetry that already lies in the repo.
 ## Data preparation
 
 Please make sure to organize the data in the following format:
+
 ```
 {
-    "doc_label": ["Computer", "MachineLearning", "DeepLearning", "Neuro", "ComputationalNeuro"],
-    "doc_token": ["I", "love", "deep", "learning"]
+    "label": ["Computer", "MachineLearning", "DeepLearning", "Neuro", "ComputationalNeuro"],
+    "token": ["I", "love", "deep", "learning"]
 }
 
 ```
 
 ### Steps to organize the data:
-1. To download xml file, run:
-```shell
-python data_preprocessing/cpv_download.py
-```
-2. To create a hierarchy out of xml file, run: 
-```shell
-python data_preprocessing/cpv_hierarchy.py
-```
-3. To create taxonomy based on hierarchy, run: 
-```shell
-python data_preprocessing/cpv_taxonomy.py
-```
+
+1. To download xls file of cpv codes and save it as csv, run:
+   ```shell
+   python data_preprocessing/cpv_download.py
+   ```
+2. To create a hierarchy out of csv file, run:
+   ```shell
+   python data_preprocessing/cpv_hierarchy.py
+   ```
+3. To create taxonomy based on hierarchy, run:
+   ```shell
+   python data_preprocessing/cpv_taxonomy.py
+   ```
 4. To prepare data for training, run:
-```shell
-python data_preprocessing/prepare_data.py
-``` 
-5. To count the prior probabilities between parent and child labels, replace the label name with your dataset's in line143~146 of `helper/hierarchy_tree_statistics.py` and run:
-```shell
-python helper/hierarchy_tree_statistic.py
-```
+   ```shell
+   python data_preprocessing/prepare_data.py
+   ```
+5. To count the prior probabilities between parent and child labels, run:
+   ```shell
+   PYTHONPATH="$(pwd):$PYTHONPATH" python helper/hierarchy_tree_statistic.py config/cpv.json
+   ```
+6. To start training, run:
+   ```shell
+   python train.py -cfg config/cpv.json
+   ```
 
 ## Train
 
-Note: We have configured params that are specified in the paper's implementation details, so there is no need to change anything without acute necessity. 
+Note: We have configured params that are specified in the paper's implementation details, so there is no need to change anything without acute necessity.
 
-From the paper's  authors: 
+From the paper's authors:
 The default parameters are not the best performing-hyper-parameters used to reproduce our results in the paper. Hyper-parameters need to be specified through the commandline arguments. Please refer to our paper for the details of how we set the hyper-parameters.
 
-To learn hyperparameters to be specified, please see: 
+To learn hyperparameters to be specified, please see:
+
 ```
 python train.py [-h] -cfg CONFIG_FILE [-b BATCH_SIZE] [-lr LEARNING_RATE]
                 [-l2 L2RATE] [-p] [-k TREE_DEPTH] [-lm NUM_MLP_LAYERS]
@@ -68,10 +75,7 @@ python train.py [-h] -cfg CONFIG_FILE [-b BATCH_SIZE] [-lr LEARNING_RATE]
 optional arguments:
   -h, --help            show this help message and exit
   -cfg CONFIG_FILE, --config_file CONFIG_FILE
-  -b BATCH_SIZE, --batch_size BATCH_SIZE
-                        input batch size for training (default: 32)
 
-                        
   -lr LEARNING_RATE, --learning_rate LEARNING_RATE
                         learning rate (default: 0.001)
   -l2 L2RATE, --l2rate L2RATE
@@ -79,19 +83,13 @@ optional arguments:
   -lm NUM_MLP_LAYERS, --num_mlp_layers NUM_MLP_LAYERS
                         Number of layers for MLP EXCLUDING the input one
                         (default: 2). 1 means linear model.
-  -hd HIDDEN_DIM, --hidden_dim HIDDEN_DIM
-                        Number of hidden units for HiTIN layer (default: 512)
-  -fd FINAL_DROPOUT, --final_dropout FINAL_DROPOUT
-                        Dropout rate for HiTIN layer (default: 0.5)
   -tp {root,sum,avg,max}, --tree_pooling_type {root,sum,avg,max}
                         Pool strategy for the whole tree in Eq.11. Could be
                         chosen from {root, sum, avg, max}.
   -hp HIERAR_PENALTY, --hierar_penalty HIERAR_PENALTY
                         The weight for L^R in Eq.14 (default: 1e-6).
-  -ct CLASSIFICATION_THRESHOLD, --classification_threshold CLASSIFICATION_THRESHOLD
-                        Threshold of binary classification. (default: 0.5)
 
- -p, --load_pretrained
+  -p, --load_pretrained
   -k TREE_DEPTH, --tree_depth TREE_DEPTH
                         The depth of coding tree to be constructed by CIRCA
                         (default: 2)
@@ -102,19 +100,19 @@ optional arguments:
                         of log files.
 ```
 
-
 ## Evaluation Metrics
 
-The experimental results are measured with `Micro-F1` and `Macro-F1`. 
+The experimental results are measured with `Micro-F1` and `Macro-F1`.
 
 `Micro-F1` is the harmonic mean of the overall precision and recall of all the test instances, while
-`Macro-F1` is the average F1-score of each category. 
+`Macro-F1` is the average F1-score of each category.
 
 Thus, Micro-F1 reflects the performance on more frequent labels, while Macro-F1 treats labels equally.
 
-
 ## Citation
+
 If you found the provided code with our paper useful in your work, please **star** this repo and **cite** our paper!
+
 ```
 @inproceedings{zhu-etal-2023-hitin,
     title = "{H}i{TIN}: Hierarchy-aware Tree Isomorphism Network for Hierarchical Text Classification",
