@@ -51,7 +51,7 @@ class Logger(object):
                                config.model.type + '-' + config.structure_encoder.type + '-' + config.text_encoder.type,
                                config.data.dataset + '_' + str(config.train.batch_size) + '_' + str(
                                    config.learning_rate) + '_' + str(config.l2rate) + '_' + str(
-                                   config.eval.threshold) + '_' + str(config.hierar_penalty))
+                                   config.eval.threshold) + '_' + str(config.train.loss.recursive_regularization.penalty))
         if config.structure_encoder.type == "TIN":
             self.log_file = os.path.join(self.log_dir, config.begin_time + str(config.tree_depth) + '_' + str(config.structure_encoder.node.dimension) + '_' + config.tree_pooling_type + '_' + str(config.structure_encoder.node.dropout) + '.log')
         else:

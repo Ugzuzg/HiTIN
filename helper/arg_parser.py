@@ -18,9 +18,6 @@ def get_args():
                         help='Number of layers for MLP EXCLUDING the input one (default: 2). 1 means linear model.')
     parser.add_argument('-tp', '--tree_pooling_type', type=str, default="sum", choices=["root", "sum", "avg", "max"],
                         help='Pool strategy for the whole tree in Eq.11. Could be chosen from {root, sum, avg, max}.')
-    # HTC
-    parser.add_argument('-hp', '--hierar_penalty', type=float, default=0.000001,
-                        help='The weight for L^R in Eq.14 (default: 1e-6).')
     # dirs
     parser.add_argument('--log_dir', type=str, default='log', help='Path to save log files (default: log).')
     parser.add_argument('--ckpt_dir', type=str, default='ckpt', help='Path to save checkpoints (default: ckpt).')

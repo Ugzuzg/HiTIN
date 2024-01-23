@@ -96,12 +96,12 @@
     }
   },
   "eval": {
-    "batch_size": 12,
+    "batch_size": 8,
     "threshold": 0.5
   },
   "test": {
     "best_checkpoint": "best_micro_tin_bert",
-    "batch_size": 12
+    "batch_size": 8
   },
   "log": {
     "level": "info",

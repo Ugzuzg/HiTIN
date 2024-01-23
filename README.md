@@ -65,10 +65,9 @@ The default parameters are not the best performing-hyper-parameters used to repr
 To learn hyperparameters to be specified, please see:
 
 ```
-python train.py [-h] -cfg CONFIG_FILE [-b BATCH_SIZE] [-lr LEARNING_RATE]
+python train.py [-h] -cfg CONFIG_FILE [-lr LEARNING_RATE]
                 [-l2 L2RATE] [-p] [-k TREE_DEPTH] [-lm NUM_MLP_LAYERS]
-                [-hd HIDDEN_DIM] [-fd FINAL_DROPOUT] [-tp {root,sum,avg,max}]
-                [-hp HIERAR_PENALTY] [-ct CLASSIFICATION_THRESHOLD]
+                [-tp {root,sum,avg,max}]
                 [--log_dir LOG_DIR] [--ckpt_dir CKPT_DIR]
                 [--begin_time BEGIN_TIME]
 
@@ -86,8 +85,6 @@ optional arguments:
   -tp {root,sum,avg,max}, --tree_pooling_type {root,sum,avg,max}
                         Pool strategy for the whole tree in Eq.11. Could be
                         chosen from {root, sum, avg, max}.
-  -hp HIERAR_PENALTY, --hierar_penalty HIERAR_PENALTY
-                        The weight for L^R in Eq.14 (default: 1e-6).
 
   -p, --load_pretrained
   -k TREE_DEPTH, --tree_depth TREE_DEPTH

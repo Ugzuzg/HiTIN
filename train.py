@@ -125,7 +125,7 @@ def train(config, args):
     model_checkpoint = os.path.join(args.ckpt_dir, args.begin_time + config.train.checkpoint.dir)  # using args
     model_name = config.model.type
     if config.structure_encoder.type == "TIN":
-        model_name += '_' + str(args.tree_depth) + '_' + str(config.structure_encoder.node.dimension) + '_' + args.tree_pooling_type + '_' + str(config.structure_encoder.node.dropout) + '_' + str(args.hierar_penalty)
+        model_name += '_' + str(args.tree_depth) + '_' + str(config.structure_encoder.node.dimension) + '_' + args.tree_pooling_type + '_' + str(config.structure_encoder.node.dropout) + '_' + str(config.train.loss.recursive_regularization.penalty)
     wait = 0
     if not os.path.isdir(model_checkpoint):
         # os.mkdir(model_checkpoint)
