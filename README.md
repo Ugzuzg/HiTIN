@@ -44,7 +44,7 @@ Please make sure to organize the data in the following format:
    ```
 4. To prepare data for training, run:
    ```shell
-   python data_preprocessing/prepare_data.py
+   python data_preprocessing/cpv_prepare_data.py
    ```
 5. To count the prior probabilities between parent and child labels, run:
    ```shell
