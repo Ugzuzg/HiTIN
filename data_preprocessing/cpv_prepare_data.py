@@ -11,6 +11,9 @@ df = pd.read_csv('cpv/all.csv', sep=',', quotechar='"', quoting=csv.QUOTE_MINIMA
 # Some descriptions are "None". We drop them, considering that we have sufficient amount of data
 df.dropna(inplace=True)
 
+# Marked training data file has missing leading zeros in cpv codes, so we need to add them back
+df['cpv'] = df['cpv'].progress_apply(lambda v: '0' * (8 - len(v)) + v)
+
 cpv_hierarchy = json.load(open('cpv/cpv_hierarchy.json', 'r'))
 
 def get_all_cpv_codes(node):
@@ -21,7 +24,6 @@ def get_all_cpv_codes(node):
 cpv = get_all_cpv_codes({'cpv': 'Root', 'children': cpv_hierarchy })
 
 # Add labels and tokens
-# TODO: check if 'Root' needs to be included as a value
 def cpv_to_label_hierarchy(v):
     labels = [v[:2] + '0' * (len(v) - 2)]
     for i in range(2, len(v)):
@@ -44,7 +46,7 @@ import numpy as np
 train, validate, test = np.split(df[['label', 'token']].sample(frac=1, random_state=42), [int(.7 * len(df)), int(.85 * len(df))])
 with open('cpv/cpv_train.json', 'w', encoding='utf-8') as f:
     train.to_json(f, orient='records', lines=True, force_ascii=False)
-with open('cpv/cpv_valu.json', 'w', encoding='utf-8') as f:
+with open('cpv/cpv_val.json', 'w', encoding='utf-8') as f:
     validate.to_json(f, orient='records', lines=True, force_ascii=False)
 with open('cpv/cpv_test.json', 'w', encoding='utf-8') as f:
     test.to_json(f, orient='records', lines=True, force_ascii=False)
