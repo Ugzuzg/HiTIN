@@ -33,8 +33,7 @@ def set_optimizer(config, model):
     """
     params = model.optimize_params_dict()
     if config.train.optimizer.type == 'Adam':
-        return torch.optim.Adam(lr=config.learning_rate,  # using args
-            # lr=config.train.optimizer.learning_rate,
+        return torch.optim.Adam(lr=config.train.optimizer.learning_rate,
                                 params=params,
                                 weight_decay=args.l2rate)
     else:
@@ -80,8 +79,7 @@ def train(config, args):
     # Define training objective & optimizer
     criterion = ClassificationLoss(os.path.join(config.data.data_dir, config.data.hierarchy),
                                    corpus_vocab.v2i['label'],
-                                   # recursive_penalty=config.train.loss.recursive_regularization.penalty,
-                                   recursive_penalty=args.hierar_penalty,  # using args
+                                   recursive_penalty=config.train.loss.recursive_regularization.penalty,
                                    recursive_constraint=config.train.loss.recursive_regularization.flag)
     if config.text_encoder.type == "bert" or config.text_encoder.type == "roberta":
         t_total = int(len(train_loader) * (config.train.end_epoch-config.train.start_epoch))
@@ -127,7 +125,7 @@ def train(config, args):
     model_checkpoint = os.path.join(args.ckpt_dir, args.begin_time + config.train.checkpoint.dir)  # using args
     model_name = config.model.type
     if config.structure_encoder.type == "TIN":
-        model_name += '_' + str(args.tree_depth) + '_' + str(args.hidden_dim) + '_' + args.tree_pooling_type + '_' + str(args.final_dropout) + '_' + str(args.hierar_penalty)
+        model_name += '_' + str(args.tree_depth) + '_' + str(config.structure_encoder.node.dimension) + '_' + args.tree_pooling_type + '_' + str(config.structure_encoder.node.dropout) + '_' + str(args.hierar_penalty)
     wait = 0
     if not os.path.isdir(model_checkpoint):
         # os.mkdir(model_checkpoint)

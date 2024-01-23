@@ -143,7 +143,8 @@ class DatasetStatistic(object):
                     # TODO: the children of Root node, need to be changed according to different corpus
                     # if label in ["CS", "Medical", "Civil", "ECE", "biochemistry", "MAE", "Psychology"]: # RCV1
                     # if label in ["Top/Features", "Top/Opinion", "Top/Classifieds", "Top/News"]: # NYT
-                    if label in ["CCAT", "ECAT", "GCAT", "MCAT"]:  # WOS
+                    # if label in ["CCAT", "ECAT", "GCAT", "MCAT"]:  # WOS
+                    if label in self.level_dict[1]:
                         prob_dict[ROOT_LABEL][label] += 1
                         self.prior_prob_dict[ROOT_LABEL][label] += 1
                         if 'train' in file_name or 'val' in file_name:

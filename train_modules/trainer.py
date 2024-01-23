@@ -86,8 +86,7 @@ class Trainer(object):
             metrics = evaluate(predict_probs,
                                target_labels,
                                self.vocab,
-                               # self.config.eval.threshold
-                               self.config.classification_threshold)  # using args
+                               self.config.eval.threshold)
             # metrics = {'precision': precision_micro,
             #             'recall': recall_micro,
             #             'micro_f1': micro_f1,

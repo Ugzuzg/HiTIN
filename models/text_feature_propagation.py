@@ -30,7 +30,7 @@ class HiAGMTP(nn.Module):
         # Duplicate and project the text feature into the label embedding space.
         self.trans_dup = nn.Linear(len(self.label_map), len(self.label_map))
         self.trans_proj = nn.Linear(config.model.linear_transformation.text_dimension,
-                                    config.hidden_dim)
+                                    config.structure_encoder.node.dimension)
         # classifier
         # self.linear = nn.Linear(len(self.label_map) * config.embedding.label.dimension,
         #                         len(self.label_map))  # original hiagm

@@ -22,7 +22,7 @@ def data_loaders(config, vocab, data={'train': None, 'val': None, 'test': None},
     collate_fn = Collator(config, vocab)
     train_dataset = ClassificationDataset(config, vocab, stage='TRAIN', on_memory=on_memory, corpus_lines=data['train'], tokenizer=tokenizer)
     train_loader = DataLoader(train_dataset,
-                              batch_size=config.batch_size,  # using args
+                              batch_size=config.train.batch_size,
                               shuffle=True,
                               num_workers=config.train.device_setting.num_workers,
                               collate_fn=collate_fn,
@@ -31,7 +31,7 @@ def data_loaders(config, vocab, data={'train': None, 'val': None, 'test': None},
 
     val_dataset = ClassificationDataset(config, vocab, stage='VAL', on_memory=on_memory, corpus_lines=data['val'], tokenizer=tokenizer)
     val_loader = DataLoader(val_dataset,
-                            batch_size=config.batch_size,  # using args
+                            batch_size=config.eval.batch_size,
                             shuffle=True,
                             num_workers=config.train.device_setting.num_workers,
                             collate_fn=collate_fn,
@@ -40,7 +40,7 @@ def data_loaders(config, vocab, data={'train': None, 'val': None, 'test': None},
 
     test_dataset = ClassificationDataset(config, vocab, stage='TEST', on_memory=on_memory, corpus_lines=data['test'], tokenizer=tokenizer)
     test_loader = DataLoader(test_dataset,
-                             batch_size=config.batch_size,  # using args
+                             batch_size=config.test.batch_size,
                              shuffle=True,
                              num_workers=config.train.device_setting.num_workers,
                              collate_fn=collate_fn,

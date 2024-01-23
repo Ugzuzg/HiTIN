@@ -49,11 +49,11 @@ class Logger(object):
 
         self.log_dir = os.path.join(config.log_dir,
                                config.model.type + '-' + config.structure_encoder.type + '-' + config.text_encoder.type,
-                               config.data.dataset + '_' + str(config.batch_size) + '_' + str(
+                               config.data.dataset + '_' + str(config.train.batch_size) + '_' + str(
                                    config.learning_rate) + '_' + str(config.l2rate) + '_' + str(
-                                   config.classification_threshold) + '_' + str(config.hierar_penalty))
+                                   config.eval.threshold) + '_' + str(config.hierar_penalty))
         if config.structure_encoder.type == "TIN":
-            self.log_file = os.path.join(self.log_dir, config.begin_time + str(config.tree_depth) + '_' + str(config.hidden_dim) + '_' + config.tree_pooling_type + '_' + str(config.final_dropout) + '.log')
+            self.log_file = os.path.join(self.log_dir, config.begin_time + str(config.tree_depth) + '_' + str(config.structure_encoder.node.dimension) + '_' + config.tree_pooling_type + '_' + str(config.structure_encoder.node.dropout) + '.log')
         else:
             self.log_file = os.path.join(config.log_dir, config.begin_time + config.log.filename)
         if not os.path.isdir(self.log_dir):

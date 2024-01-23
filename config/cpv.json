@@ -11,7 +11,7 @@
   "vocabulary": {
     "dir": "vocab",
     "vocab_dict": "word.dict",
-    "max_token_vocab": 60000,
+    "max_token_vocab": 65636,
     "label_dict": "label.dict"
   },
   "embedding": {
@@ -51,7 +51,7 @@
     "node": {
       "type": "text",
       "dimension": 768,
-      "dropout": 0.05
+      "dropout": 0.5
     }
   },
   "model": {
