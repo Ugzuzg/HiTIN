@@ -10,14 +10,18 @@ def tree_to_taxonomy(node) -> list[str]:
         return []
 
     out = []
-    direct_children = [child['cpv'] for child in (node['children'] or []) if child['cpv'] != node['cpv']]
+    direct_children = [child['cpv'] for child in node['children']]
+    # Generate: Category \t Subcategory1 \t Subcategory2
     out.append('\t'.join([node['cpv']] + direct_children) + '\n')
-    for child in (node['children'] or []):
+    # Recursively generate Subcategories for the the given node
+    for child in node['children']:
         out += tree_to_taxonomy(child)
     return out
 
 with open('cpv/cpv_hierarchy.json', 'r') as hierarchy_file:
     with open('cpv/cpv.taxonomy', 'w') as taxonomy_file:
         hierarchy = json.load(hierarchy_file)
+        # 'Root' is an arbitrary name of the entry point category from which all other categories descend 
+        # ('name' is there for consistency with hierarchy file, won't be in the taxonomy file) 
         hierarchy_lines = tree_to_taxonomy({ 'name': 'Root', 'cpv': 'Root', 'children': hierarchy })
         taxonomy_file.writelines(hierarchy_lines)

@@ -4,10 +4,12 @@ import json
 from tqdm.auto import tqdm
 tqdm.pandas()
 
-# Read data
+# Read data. 1 - description, 2 - language, 3 - cpv code. 
+# Read 'cpv' as object, otherwise pandas converts it to integers removing leading zeros
 df = pd.read_csv('cpv/all.csv', sep=',', quotechar='"', quoting=csv.QUOTE_MINIMAL, usecols=[1, 2, 3], dtype={'cpv': object})
+
+# Some descriptions are "None". We drop them, considering that we have sufficient amount of data
 df.dropna(inplace=True)
-df['cpv'] = df['cpv'].progress_apply(lambda v: '0' * (8 - len(v)) + v)
 
 cpv_hierarchy = json.load(open('cpv/cpv_hierarchy.json', 'r'))
 
@@ -19,7 +21,8 @@ def get_all_cpv_codes(node):
 cpv = get_all_cpv_codes({'cpv': 'Root', 'children': cpv_hierarchy })
 
 # Add labels and tokens
-def int_to_hierarchy(v):
+# TODO: check if 'Root' needs to be included as a value
+def cpv_to_label_hierarchy(v):
     labels = [v[:2] + '0' * (len(v) - 2)]
     for i in range(2, len(v)):
         if v[i] == '0':
@@ -27,10 +30,12 @@ def int_to_hierarchy(v):
         labels.append(v[:i + 1] + '0' * (len(v) - i - 1))
     return [l for l in labels if l in cpv]
 
-df['label'] = df.cpv.progress_apply(int_to_hierarchy)
+df['label'] = df.cpv.progress_apply(cpv_to_label_hierarchy)
 
+# Filter out cpv codes from descriptions
 df.desc = df.desc.str.replace(r'\d{8}(-\d)?', '', regex=True)
 
+# Hitin expects a list of tokens, so we make one
 df['token'] = df.desc.progress_apply(lambda x: [x])
 
 # Split data into train, val, test
