@@ -42,6 +42,9 @@ df['token'] = df.desc.progress_apply(lambda x: [x])
 import numpy as np
 
 train, validate, test = np.split(df[['label', 'token']].sample(frac=1, random_state=42), [int(.7 * len(df)), int(.85 * len(df))])
-train.to_json('cpv/cpv_train.json', orient='records', lines=True)
-validate.to_json('cpv/cpv_val.json', orient='records', lines=True)
-test.to_json('cpv/cpv_test.json', orient='records', lines=True)
+with open('cpv/cpv_train.json', 'w', encoding='utf-8') as f:
+    train.to_json(f, orient='records', lines=True, force_ascii=False)
+with open('cpv/cpv_valu.json', 'w', encoding='utf-8') as f:
+    validate.to_json(f, orient='records', lines=True, force_ascii=False)
+with open('cpv/cpv_test.json', 'w', encoding='utf-8') as f:
+    test.to_json(f, orient='records', lines=True, force_ascii=False)
