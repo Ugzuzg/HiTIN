@@ -30,6 +30,9 @@ Please make sure to organize the data in the following format:
 
 ### Steps to organize the data:
 
+0. Download and extract `all.csv` file from `all.7z` into `./cpv` directory. Download and put `vocab.txt` into the same directory.
+   https://drive.google.com/drive/folders/14BW6nZF0Hao2EEpVSm41i7vKK6kMG-Mj?usp=drive_link
+
 1. To download xls file of cpv codes and save it as csv, run:
    ```shell
    python data_preprocessing/cpv_download.py
