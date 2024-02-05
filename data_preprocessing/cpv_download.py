@@ -4,7 +4,7 @@ from zipfile import ZipFile
 from urllib.request import urlopen
 
 # URL to download CPV codes dataset in ZIP format (flat hierarchy)
-URL_CPV_CODES = "https://simap.ted.europa.eu/documents/10184/36234/cpv_2008_xls.zip"
+URL_CPV_CODES = "https://ted.europa.eu/documents/d/ted/cpv_2008_xls"
 
 # Fetch CPV codes from the SIMAP website with their names in a given language
 def get_cpv_codes_from_simap(language):
