@@ -111,8 +111,6 @@ Thus, Micro-F1 reflects the performance on more frequent labels, while Macro-F1 
 
 ## Citation
 
-If you found the provided code with our paper useful in your work, please **star** this repo and **cite** our paper!
-
 ```
 @inproceedings{zhu-etal-2023-hitin,
     title = "{H}i{TIN}: Hierarchy-aware Tree Isomorphism Network for Hierarchical Text Classification",
