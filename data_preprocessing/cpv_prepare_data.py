@@ -37,8 +37,10 @@ df['label'] = df.cpv.progress_apply(cpv_to_label_hierarchy)
 # Filter out cpv codes from descriptions
 df.desc = df.desc.str.replace(r'\d{8}(-\d)?', '', regex=True)
 
-# Hitin expects a list of tokens, so we make one
-df['token'] = df.desc.progress_apply(lambda x: [x])
+from transformers import AutoTokenizer
+tokenizer = AutoTokenizer.from_pretrained('EuropeanParliament/EUBERT')
+
+df['token'] = df.desc.progress_apply(lambda x: tokenizer.tokenize(x))
 
 # Split data into train, val, test
 import numpy as np

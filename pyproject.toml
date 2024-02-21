@@ -6,7 +6,7 @@ authors = ["Jarasłaŭ Viktorčyk <ugzuzg@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "3.11.6"
+python = "3.11.7"
 pandas = "^2.1.4"
 datasets = "^2.16.1"
 numpy = "1.26.3"

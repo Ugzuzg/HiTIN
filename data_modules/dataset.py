@@ -82,9 +82,7 @@ class ClassificationDataset(Dataset):
             sample_str = self.data[index]
         return self._preprocess_sample(sample_str)
 
-    def create_features(self, sentences, max_seq_len=256):
-        tokens = self.tokenizer.tokenize(sentences)
-
+    def create_features(self, tokens, max_seq_len=256):
         if len(tokens) > max_seq_len - 2:
             tokens = tokens[:max_seq_len - 2]
         tokens = ['[CLS]'] + tokens + ['[SEP]']
@@ -119,8 +117,8 @@ class ClassificationDataset(Dataset):
                 sample[k] = [self.vocab.v2i[k].get(v.lower(), self.vocab.oov_index) for v in raw_sample[k]]
 
                 if self.config.text_encoder.type == "bert" or self.config.text_encoder.type == "roberta":
-                    sentences = " ".join(raw_sample[k])
-                    features = self.create_features(sentences, self.max_input_length)
+                    tokens = raw_sample[k]
+                    features = self.create_features(tokens, self.max_input_length)
                     for (features_k, features_v) in features.items():
                         sample[features_k] = features_v
             else:
