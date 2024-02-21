@@ -20,7 +20,7 @@ def get_num_lines(file_path):
 
 
 class Vocab(object):
-    def __init__(self, config, tokenizer=None, min_freq=1, special_token=['<PADDING>', '<OOV>'], max_size=None):
+    def __init__(self, config, min_freq=1, special_token=['<PADDING>', '<OOV>'], max_size=None):
         """
         vocabulary class for text classification, initialized from pretrained embedding file
         and update based on minimum frequency and maximum size
@@ -41,7 +41,6 @@ class Vocab(object):
         self.v2i = {'token': dict(), 'label': dict()}
         # index to vocab
         self.i2v = {'token': dict(), 'label': dict()}
-        self.tokenizer = tokenizer
 
         self.min_freq = max(min_freq, 1)
         if not os.path.isdir(self.config.vocabulary.dir):
@@ -124,12 +123,7 @@ class Vocab(object):
         for k in self.freqs.keys():
             if mode == 'ALL':
                 for t in line_dict[k]:
-                    if self.tokenizer is not None and k != 'label':
-                        tokens = self.tokenizer.tokenize(t)
-                        for t in tokens:
-                            self.freqs[k][t] += 1
-                    else:
-                        self.freqs[k][t] += 1
+                    self.freqs[k][t] += 1
             else:
                 for t in line_dict['token']:
                     self.freqs['token'][t] += 1

@@ -51,7 +51,6 @@ def train(config, args):
         tokenizer = None
 
     corpus_vocab = Vocab(config,
-                         tokenizer=tokenizer,
                          min_freq=5,
                          max_size=70000)
 
